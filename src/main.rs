@@ -7,7 +7,7 @@ pub struct Grammar;
 
 fn main() -> anyhow::Result<()> {
     let result = Grammar::parse(Rule::date_time, "06.11.2024 19:34:00");
-    println!("{:?}", result);
+    println!("{:?}", result); 
 
     return Ok(());
 }

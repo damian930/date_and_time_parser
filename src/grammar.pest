@@ -1,0 +1,31 @@
+// <date_time> ::= "file_start" <date> <spaces> <time> "end_of_file"
+
+// <date>     ::= <day> "." <month> "." <year> 
+// <year>     ::= <digit> <digit> <digit> <digit>   // Example: "2023"
+// <month>    ::= <digit> <digit>                   // Example: "01" - "12"
+// <day>      ::= <digit> <digit>                   // Example: "01" - "31"
+
+// <time>     ::= <hour> ":" <minute> ":" <second>
+// <hour>     ::= <digit> <digit>                   // Example: "00" - "23"
+// <minute>   ::= <digit> <digit>                   // Example: "00" - "59"
+// <second>   ::= <digit> <digit>                   // Example: "00" - "59"
+
+// <digit>    ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+// <spaces>   ::= " " <spaces> | ""                 // Example: "   "
+
+spaces = { " "+ }
+digit = { '0'..'9' }
+second = { digit ~ digit }
+minute = { digit ~ digit }
+hour = { digit ~ digit }
+time = { hour ~ ":" ~ minute ~ ":" ~ second}
+day = { digit ~ digit }
+month = { digit ~ digit }
+year = { digit ~ digit ~ digit ~ digit }
+date = { day ~ "." ~ month ~ "." ~ year }
+date_time = { SOI ~ date ~ spaces ~ time ~ EOI }
+
+
+
+
+

@@ -2,7 +2,7 @@
 name = "damians_custom_datetime_parser"
 version = "0.1.0"
 edition = "2021"
-licence = "MIT"
+license = "MIT"
 description = "Custom library for date and time parsing using pest."
 
 [dependencies]

@@ -1,12 +1,14 @@
 [package]
-name = "Damians_Custom_DateTime_Parser"
+name = "damians_custom_datetime_parser"
 version = "0.1.0"
 edition = "2021"
 licence = "MIT"
-descriprion = "Custom library for date and time parsing using pest."
+description = "Custom library for date and time parsing using pest."
 
 [dependencies]
 anyhow = "1.0.93"
+clap = "4.5.20"
 pest = "2.7.14"
 pest_derive = "2.7.14"
+thiserror = "2.0.2"
 

@@ -100,7 +100,9 @@ fn main() {
 If an invalid date-time string is provided, for example, `"06/11/2024 19:34:00"`, the parser will return an error such as:
 
 ```plaintext
-DateTime parsing error: failed to match rule `date_time`
+ParseError(
+        " --> 1:1\n  |\n1 | 06/11/2024 19:34:00\n  | ^---\n  |\n  = expected date",
+    )
 ```
 
 ## Unit Tests

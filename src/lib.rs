@@ -2,16 +2,19 @@ use pest::Parser;
 use pest_derive::Parser;
 use thiserror::Error;
 
+ // strcture for parsing using pest and grammar inside #[grammar...]
 #[derive(Parser)]
 #[grammar = "./grammar.pest"]
 pub struct DateTimeParser;
 
+// Parsing Error type
 #[derive(Debug, Error)]
 pub enum DateTimeError {
     #[error("DateTime parsing error: {0}")]
     ParseError(String),
 }
 
+// Result of parsing
 #[derive(Debug)]
 pub struct DateTime {
     pub day: String,
@@ -31,7 +34,7 @@ impl DateTime {
 
         // { SOI ~ date ~ spaces ~ time ~ EOI }
 
-        // access global pair that holds date, spaces, time
+        // access the global pair that holds date, spaces, time as it`s inside pairs
         let mut global_iter = pairs.into_iter().next().unwrap().into_inner();
 
         // get parsed elements: date, spaces, time

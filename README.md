@@ -1,4 +1,4 @@
-# damians_custom_datetime_parser
+# [damians_custom_datetime_parser](https://crates.io/crates/damians_custom_datetime_parser)
 
 ## Project Overview
 

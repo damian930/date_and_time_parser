@@ -28,14 +28,14 @@ pub struct DateTime {
 
 impl DateTime {
     pub fn from_data_time(date_time: &str) -> Result<Self, DateTimeError> {
-        // parse string into pest's pairs, future unwraps are not dangerous
-        let pairs = DateTimeParser::parse(Rule::date_time, date_time)
+        // parse string into pest's pairs, future unwraps are not dangerous. Pest Pairs conform iterator semantics by default
+        let mut pairs = DateTimeParser::parse(Rule::date_time, date_time)
             .map_err(|_err| DateTimeError::ParseError(_err.to_string()))?;
 
         // { SOI ~ date ~ spaces ~ time ~ EOI }
 
         // access the global pair that holds date, spaces, time as it`s inside pairs
-        let mut global_iter = pairs.into_iter().next().unwrap().into_inner();
+        let mut global_iter = pairs.next().unwrap().into_inner(); 
 
         // get parsed elements: date, spaces, time
         let date_pair = global_iter.next().unwrap();

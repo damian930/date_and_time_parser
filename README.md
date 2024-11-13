@@ -145,7 +145,7 @@ The project consists of the following main files:
                         |
                         v
 +----------------------------------------------------+
-|                       DateTime                    |
+|                       DateTime                     |
 |----------------------------------------------------|
 | - day: String                                      |
 | - month: String                                    |

@@ -2,7 +2,7 @@ use pest::Parser;
 use pest_derive::Parser;
 use thiserror::Error;
 
- // strcture for parsing using pest and grammar inside #[grammar...]
+// strcture for parsing using pest and grammar inside #[grammar...]
 #[derive(Parser)]
 #[grammar = "./grammar.pest"]
 pub struct DateTimeParser;
@@ -37,7 +37,7 @@ impl DateTime {
         // { SOI ~ date ~ spaces ~ time ~ (spaces ~ timezone)? ~ EOI }
 
         // access the global pair that holds date, spaces, time as it`s inside pairs
-        let mut global_iter = pairs.next().unwrap().into_inner(); 
+        let mut global_iter = pairs.next().unwrap().into_inner();
 
         // get parsed elements: spaces?, date, spaces, time, spaces?, time_zone_offset?
         let date_pair = global_iter.next().unwrap();
@@ -62,13 +62,8 @@ impl DateTime {
         let seconds = time_parts_iter.next().unwrap().as_str().to_string();
 
         // get optinal time_zone_offset
-        let time_zone_offset: Option<String>;
-        if time_zone_offset_pair.is_none() {
-            time_zone_offset = None;
-        }
-        else {
-            time_zone_offset = Some(time_zone_offset_pair.unwrap().as_str().to_string());
-        }
+        let time_zone_offset: Option<String> =
+            time_zone_offset_pair.map(|pair| pair.as_str().to_string());
 
         Ok(DateTime {
             day,
@@ -80,6 +75,4 @@ impl DateTime {
             time_zone_offset,
         })
     }
-
-
 }

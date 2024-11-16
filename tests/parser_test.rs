@@ -23,7 +23,6 @@ fn parse_spaces_invalid() -> anyhow::Result<()> {
     Ok(())
 }
 
-
 #[test]
 fn parse_digit_valid() -> anyhow::Result<()> {
     let inputs = vec!["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
@@ -67,7 +66,6 @@ fn parse_second_invalid() -> anyhow::Result<()> {
 
     Ok(())
 }
-
 
 #[test]
 fn parse_minute_valid() -> anyhow::Result<()> {
@@ -203,7 +201,14 @@ fn parse_year_invalid() -> anyhow::Result<()> {
 
 #[test]
 fn parse_date_valid() -> anyhow::Result<()> {
-    let inputs = vec!["19.11.2024", "19/11/2024", "19-11-2024", "19.11-2024", "19.11/2024", "19/11-2024"];
+    let inputs = vec![
+        "19.11.2024",
+        "19/11/2024",
+        "19-11-2024",
+        "19.11-2024",
+        "19.11/2024",
+        "19/11-2024",
+    ];
     for input in inputs {
         let pairs = DateTimeParser::parse(Rule::date, input)?;
         assert_eq!(input, pairs.as_str());
@@ -249,11 +254,11 @@ fn parse_timezone_invalid() -> anyhow::Result<()> {
 fn parse_date_time_valid() -> anyhow::Result<()> {
     let inputs = vec![
         "19.11.2024  12:56:00",
-        "19/11/2024  12:56:00", 
-        "19-11-2024  12:56:00", 
-        "19/11/2024  12:56:00 +02:00", 
-        "19/11/2024  12:56:00 -02:00"
-        ];
+        "19/11/2024  12:56:00",
+        "19-11-2024  12:56:00",
+        "19/11/2024  12:56:00 +02:00",
+        "19/11/2024  12:56:00 -02:00",
+    ];
     for input in inputs {
         let pairs = DateTimeParser::parse(Rule::date_time, input)?;
         assert_eq!(input, pairs.as_str());
@@ -265,11 +270,11 @@ fn parse_date_time_valid() -> anyhow::Result<()> {
 #[test]
 fn parse_date_time_invalid() -> anyhow::Result<()> {
     let inputs = vec![
-        "19_11/2024  12:56:00", 
-        " 19-11-2024  12:56:00", 
-        "19/11/2024_12:56:00 +02:00", 
-        "19/11/2024  12:56:00 02:00"
-        ];
+        "19_11/2024  12:56:00",
+        " 19-11-2024  12:56:00",
+        "19/11/2024_12:56:00 +02:00",
+        "19/11/2024  12:56:00 02:00",
+    ];
     for input in inputs {
         let pairs = DateTimeParser::parse(Rule::date_time, input);
         assert!(pairs.is_err());
@@ -281,12 +286,67 @@ fn parse_date_time_invalid() -> anyhow::Result<()> {
 #[test]
 fn extract_data_from_parsing_datetime_valid() -> anyhow::Result<()> {
     let inputs = vec![
-        ("19.11.2024  12:56:00", DateTime{day: "19".to_string(), month: "11".to_string(), year:"2024".to_string(), hours: "12".to_string(), minutes: "56".to_string(), seconds: "00".to_string(), time_zone_offset: None::<String>}), 
-        ("19/11/2024  12:56:00", DateTime{day: "19".to_string(), month: "11".to_string(), year:"2024".to_string(), hours: "12".to_string(), minutes: "56".to_string(), seconds: "00".to_string(), time_zone_offset: None::<String>}), 
-        ("19-11-2024  12:56:00", DateTime{day: "19".to_string(), month: "11".to_string(), year:"2024".to_string(), hours: "12".to_string(), minutes: "56".to_string(), seconds: "00".to_string(), time_zone_offset: None::<String>}),
-        ("19/11/2024  12:56:00 +02:00",  DateTime{day: "19".to_string(), month: "11".to_string(), year:"2024".to_string(), hours: "12".to_string(), minutes: "56".to_string(), seconds: "00".to_string(), time_zone_offset: Some::<String>("+02:00".to_string())}),
-        ("19/11/2024  12:56:00 -02:00",  DateTime{day: "19".to_string(), month: "11".to_string(), year:"2024".to_string(), hours: "12".to_string(), minutes: "56".to_string(), seconds: "00".to_string(), time_zone_offset: Some::<String>("-02:00".to_string())}),
-        ];
+        (
+            "19.11.2024  12:56:00",
+            DateTime {
+                day: "19".to_string(),
+                month: "11".to_string(),
+                year: "2024".to_string(),
+                hours: "12".to_string(),
+                minutes: "56".to_string(),
+                seconds: "00".to_string(),
+                time_zone_offset: None::<String>,
+            },
+        ),
+        (
+            "19/11/2024  12:56:00",
+            DateTime {
+                day: "19".to_string(),
+                month: "11".to_string(),
+                year: "2024".to_string(),
+                hours: "12".to_string(),
+                minutes: "56".to_string(),
+                seconds: "00".to_string(),
+                time_zone_offset: None::<String>,
+            },
+        ),
+        (
+            "19-11-2024  12:56:00",
+            DateTime {
+                day: "19".to_string(),
+                month: "11".to_string(),
+                year: "2024".to_string(),
+                hours: "12".to_string(),
+                minutes: "56".to_string(),
+                seconds: "00".to_string(),
+                time_zone_offset: None::<String>,
+            },
+        ),
+        (
+            "19/11/2024  12:56:00 +02:00",
+            DateTime {
+                day: "19".to_string(),
+                month: "11".to_string(),
+                year: "2024".to_string(),
+                hours: "12".to_string(),
+                minutes: "56".to_string(),
+                seconds: "00".to_string(),
+                time_zone_offset: Some::<String>("+02:00".to_string()),
+            },
+        ),
+        (
+            "19/11/2024  12:56:00 -02:00",
+            DateTime {
+                day: "19".to_string(),
+                month: "11".to_string(),
+                year: "2024".to_string(),
+                hours: "12".to_string(),
+                minutes: "56".to_string(),
+                seconds: "00".to_string(),
+                time_zone_offset: Some::<String>("-02:00".to_string()),
+            },
+        ),
+    ];
     for (input, expected_result) in inputs {
         let result = DateTime::from_data_time(input)?;
         assert_eq!(expected_result, result);

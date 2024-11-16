@@ -73,7 +73,7 @@ The CLI provides the following commands:
    cargo run parse "06.11.2024 19:34:00"
    ```
 
-### Example
+### Example 1: Without Time Zone Offset
 
 Given the input string `"06.11.2024 19:34:00"`, the parser will output the following:
 
@@ -89,7 +89,9 @@ DateTime {
 }
 ```
 
-Given the input string `"06.11.2024 19:34:00 -03:00"`, the parser will output the following:
+### Example 2: With Time Zone Offset
+
+Given the input string `"06.11.2024 19:34:00 +02:00"`, the parser will output the following:
 
 ```plaintext
 DateTime {
@@ -99,9 +101,8 @@ DateTime {
     hours: "19",
     minutes: "34",
     seconds: "00",
-    time_zone_offset: "-03:00"
+    time_zone_offset: Some("+02:00")
 }
-```
 
 ### Parsing Example Code
 

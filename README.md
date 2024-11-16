@@ -137,15 +137,15 @@ The project consists of the following main files:
 
 ```
 +----------------------------------------------------+
-|                    DateTimeParser                 |
+|                    DateTimeParser                  |
 |----------------------------------------------------|
-| - Grammar rules for date-time parsing             |
+| - Grammar rules for date-time parsing              |
 | - Methods: parse()                                 |
 +----------------------------------------------------+
                         |
                         v
 +----------------------------------------------------+
-|                       DateTime                    |
+|                       DateTime                     |
 |----------------------------------------------------|
 | - day: String                                      |
 | - month: String                                    |
@@ -160,22 +160,20 @@ The project consists of the following main files:
                         |
                         v
 +----------------------------------------------------+
-|                    DateTimeError                  |
+|                    DateTimeError                   |
 |----------------------------------------------------|
-| - error_message: String                           |
+| - error_message: String                            |
 |----------------------------------------------------|
-| + ParseError(String)                              |
+| + ParseError(String)                               |
 +----------------------------------------------------+
                         |
                         v
 +----------------------------------------------------+
-|               Command-Line Interface              |
-|----------------------------------------------------|
-| - Commands: parse, help, credits                  |
+|               Command-Line Interface               |
 |----------------------------------------------------|
 | + parse(date_time: &str) -> Result<DateTime, DateTimeError> |
-| + get_help()                                      |
-| + print_credits()                                 |
+| + get_help()                                       |
+| + print_credits()                                  |
 +----------------------------------------------------+
 ```
 

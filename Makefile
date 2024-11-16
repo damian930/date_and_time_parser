@@ -5,13 +5,13 @@ clean:
 	cargo clean
 
 parse:
-	cargo run "<DateTime>"
+	cargo run parse "<DateTime>"
 
 format:
-	cargo format
+	cargo fmt
 
 clippy:
-	cargo clippy -- -Dwarnings
+	cargo clippy
 
 all_commands:
 	cargo run help

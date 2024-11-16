@@ -1,10 +1,15 @@
-# [damians_custom_datetime_parser](https://crates.io/crates/damians_custom_datetime_parser)
+# damians_custom_datetime_parser
 
 ## Project Overview
 
 `damians_custom_datetime_parser` is a Rust library designed for parsing custom date and time strings using the `pest` parser. It validates and extracts day, month, year, hour, minute, and second components from date-time strings, providing users with detailed feedback on the success or failure of the parsing process.
 
 The library utilizes a custom grammar defined in the `grammar.pest` file to facilitate parsing, and the parser is robust enough to handle errors, providing detailed error messages in case of invalid input.
+
+## Links
+
+- [Crates.io](https://crates.io/crates/damians_custom_datetime_parser)
+- [Documentation](https://docs.rs/damians_custom_datetime_parser)
 
 ## Features
 

@@ -1,4 +1,4 @@
-#![doc = include_str!("../docs.md")]
+#![doc = include_str!("../doc.md")]
 
 use pest::Parser;
 use pest_derive::Parser;

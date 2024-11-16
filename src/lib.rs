@@ -15,7 +15,7 @@ pub enum DateTimeError {
 }
 
 // Result of parsing
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct DateTime {
     pub day: String,
     pub month: String,
@@ -24,6 +24,8 @@ pub struct DateTime {
     pub hours: String,
     pub minutes: String,
     pub seconds: String,
+
+    pub time_zone_offset: Option<String>,
 }
 
 impl DateTime {
@@ -32,15 +34,18 @@ impl DateTime {
         let mut pairs = DateTimeParser::parse(Rule::date_time, date_time)
             .map_err(|_err| DateTimeError::ParseError(_err.to_string()))?;
 
-        // { SOI ~ date ~ spaces ~ time ~ EOI }
+        // { SOI ~ date ~ spaces ~ time ~ (spaces ~ timezone)? ~ EOI }
 
         // access the global pair that holds date, spaces, time as it`s inside pairs
         let mut global_iter = pairs.next().unwrap().into_inner(); 
 
-        // get parsed elements: date, spaces, time
+        // get parsed elements: spaces?, date, spaces, time, spaces?, time_zone_offset?
         let date_pair = global_iter.next().unwrap();
         let _ = global_iter.next(); // skipping spaces
         let time_pair = global_iter.next().unwrap();
+        // optional
+        let _ = global_iter.next(); // skipping spaces
+        let time_zone_offset_pair = global_iter.next();
 
         // get day, month, year from date_pair
         let mut date_parts_iter = date_pair.into_inner();
@@ -56,6 +61,15 @@ impl DateTime {
         let minutes = time_parts_iter.next().unwrap().as_str().to_string();
         let seconds = time_parts_iter.next().unwrap().as_str().to_string();
 
+        // get optinal time_zone_offset
+        let time_zone_offset: Option<String>;
+        if time_zone_offset_pair.is_none() {
+            time_zone_offset = None;
+        }
+        else {
+            time_zone_offset = Some(time_zone_offset_pair.unwrap().as_str().to_string());
+        }
+
         Ok(DateTime {
             day,
             month,
@@ -63,6 +77,9 @@ impl DateTime {
             hours,
             minutes,
             seconds,
+            time_zone_offset,
         })
     }
+
+
 }

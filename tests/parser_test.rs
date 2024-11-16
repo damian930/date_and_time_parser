@@ -2,166 +2,295 @@ use damians_custom_datetime_parser::*;
 use pest::Parser;
 
 #[test]
-fn parse_spaces_valid() {
-    let result = DateTimeParser::parse(Rule::spaces, "  ");
-    assert!(
-        result.is_ok(),
-        "Something went wrong while parsing empty symbols using Rule::spaces"
-    );
+fn parse_spaces_valid() -> anyhow::Result<()> {
+    let inputs = vec![" ", "     "];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::spaces, input)?;
+        assert_eq!(input, pairs.as_str());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_spaces_invalid() {
-    let result = DateTimeParser::parse(Rule::spaces, "g  ");
-    assert!(result.is_err(), "Something went wrong while parsing letters using Rule::spaces, was supposed to return DateTimeError");
+fn parse_spaces_invalid() -> anyhow::Result<()> {
+    let inputs = vec!["a ", "a     "];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::spaces, input);
+        assert!(pairs.is_err());
+    }
+
+    Ok(())
+}
+
+
+#[test]
+fn parse_digit_valid() -> anyhow::Result<()> {
+    let inputs = vec!["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::digit, input)?;
+        assert_eq!(input, pairs.as_str());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_digit_valid() {
-    let result = DateTimeParser::parse(Rule::digit, "1");
-    assert!(
-        result.is_ok(),
-        "Something went wrong while parsing a digit using Rule::digit"
-    );
+fn parse_digit_invalid() -> anyhow::Result<()> {
+    let inputs = vec!["a", "/", " "];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::digit, input);
+        assert!(pairs.is_err());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_digit_invalid() {
-    let result = DateTimeParser::parse(Rule::digit, "g");
-    assert!(result.is_err(), "Something went wrong while parsing a letters using Rule::digit, was supposed to return DateTimeError");
+fn parse_second_valid() -> anyhow::Result<()> {
+    let inputs = vec!["12", "89"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::second, input)?;
+        assert_eq!(input, pairs.as_str());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_second_valid() {
-    let result = DateTimeParser::parse(Rule::second, "12");
-    assert!(
-        result.is_ok(),
-        "Something went wrong while parsing a second using Rule::second"
-    );
+fn parse_second_invalid() -> anyhow::Result<()> {
+    let inputs = vec!["1", "9", "a", " "];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::second, input);
+        assert!(pairs.is_err());
+    }
+
+    Ok(())
+}
+
+
+#[test]
+fn parse_minute_valid() -> anyhow::Result<()> {
+    let inputs = vec!["12", "89"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::minute, input)?;
+        assert_eq!(input, pairs.as_str());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_second_invalid() {
-    let result = DateTimeParser::parse(Rule::second, "1");
-    assert!(result.is_err(), "Something went wrong while parsing a second using Rule::second, was supposed to return DateTimeError");
+fn parse_minute_invalid() -> anyhow::Result<()> {
+    let inputs = vec!["1", "9", "a", " "];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::minute, input);
+        assert!(pairs.is_err());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_minute_valid() {
-    let result = DateTimeParser::parse(Rule::minute, "12");
-    assert!(
-        result.is_ok(),
-        "Something went wrong while parsing a minute using Rule::minute"
-    );
+fn parse_hour_valid() -> anyhow::Result<()> {
+    let inputs = vec!["12", "89"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::hour, input)?;
+        assert_eq!(input, pairs.as_str());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_minute_invalid() {
-    let result = DateTimeParser::parse(Rule::minute, "1");
-    assert!(result.is_err(), "Something went wrong while parsing a minute using Rule::minute, was supposed to return DateTimeError");
+fn parse_hour_invalid() -> anyhow::Result<()> {
+    let inputs = vec!["1", "9", "a", " "];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::hour, input);
+        assert!(pairs.is_err());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_hour_valid() {
-    let result = DateTimeParser::parse(Rule::hour, "12");
-    assert!(
-        result.is_ok(),
-        "Something went wrong while parsing an hour using Rule::hour"
-    );
+fn parse_time_valid() -> anyhow::Result<()> {
+    let inputs = vec!["12:49:00", "07:14:24"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::time, input)?;
+        assert_eq!(input, pairs.as_str());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_hour_invalid() {
-    let result = DateTimeParser::parse(Rule::hour, "1");
-    assert!(result.is_err(), "Something went wrong while parsing an hour using Rule::hour, was supposed to return DateTimeError");
+fn parse_time_invalid() -> anyhow::Result<()> {
+    let inputs = vec!["12:11 00", "12-11:00", "2:11 00"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::time, input);
+        assert!(pairs.is_err());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_time_valid() {
-    let result = DateTimeParser::parse(Rule::time, "12:49:00");
-    assert!(
-        result.is_ok(),
-        "Something went wrong while parsing time using Rule::time"
-    );
+fn parse_day_valid() -> anyhow::Result<()> {
+    let inputs = vec!["12", "08"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::day, input)?;
+        assert_eq!(input, pairs.as_str());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_time_invalid() {
-    let result = DateTimeParser::parse(Rule::time, "12:11 00");
-    assert!(result.is_err(), "Something went wrong while parsing time using Rule::time, was supposed to return DateTimeError");
+fn parse_day_invalid() -> anyhow::Result<()> {
+    let inputs = vec!["1", "9", "a", " "];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::day, input);
+        assert!(pairs.is_err());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_day_valid() {
-    let result = DateTimeParser::parse(Rule::day, "17");
-    assert!(
-        result.is_ok(),
-        "Something went wrong while parsing a day using Rule::day"
-    );
+fn parse_month_valid() -> anyhow::Result<()> {
+    let inputs = vec!["12", "08"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::month, input)?;
+        assert_eq!(input, pairs.as_str());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_day_invalid() {
-    let result = DateTimeParser::parse(Rule::day, "1");
-    assert!(result.is_err(), "Something went wrong while parsing a day using Rule::day, was supposed to return DateTimeError");
+fn parse_month_invalid() -> anyhow::Result<()> {
+    let inputs = vec!["1", "9", "a", " "];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::month, input);
+        assert!(pairs.is_err());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_month_valid() {
-    let result = DateTimeParser::parse(Rule::month, "01");
-    assert!(
-        result.is_ok(),
-        "Something went wrong while parsing a month using Rule::month"
-    );
+fn parse_year_valid() -> anyhow::Result<()> {
+    let inputs = vec!["2004", "1998", "0734"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::year, input)?;
+        assert_eq!(input, pairs.as_str());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_month_invalid() {
-    let result = DateTimeParser::parse(Rule::month, "1");
-    assert!(result.is_err(), "Something went wrong while parsing a month using Rule::month, was supposed to return DateTimeError");
+fn parse_year_invalid() -> anyhow::Result<()> {
+    let inputs = vec!["204", "13", "7"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::year, input);
+        assert!(pairs.is_err());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_year_valid() {
-    let result = DateTimeParser::parse(Rule::year, "2019");
-    assert!(
-        result.is_ok(),
-        "Something went wrong while parsing a year using Rule::year"
-    );
+fn parse_date_valid() -> anyhow::Result<()> {
+    let inputs = vec!["19.11.2024", "19/11/2024", "19-11-2024", "19.11-2024", "19.11/2024", "19/11-2024"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::date, input)?;
+        assert_eq!(input, pairs.as_str());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_year_invalid() {
-    let result = DateTimeParser::parse(Rule::year, "999");
-    assert!(result.is_err(), "Something went wrong while parsing a year using Rule::year, was supposed to return DateTimeError");
+fn parse_date_invalid() -> anyhow::Result<()> {
+    let inputs = vec!["19_11_2024", "19 11 2024"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::date, input);
+        assert!(pairs.is_err());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_date_valid() {
-    let result = DateTimeParser::parse(Rule::date, "19.11.2024");
-    assert!(
-        result.is_ok(),
-        "Something went wrong while parsing a date using Rule::date"
-    );
+fn parse_timezone_valid() -> anyhow::Result<()> {
+    let inputs = vec!["+02:00", "-11:15"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::timezone, input)?;
+        assert_eq!(input, pairs.as_str());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_date_invalid() {
-    let result = DateTimeParser::parse(Rule::date, "999");
-    assert!(result.is_err(), "Something went wrong while parsing a date using Rule::date, was supposed to return DateTimeError")
+fn parse_timezone_invalid() -> anyhow::Result<()> {
+    let inputs = vec!["+2:00", "10:00"];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::timezone, input);
+        assert!(pairs.is_err());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_date_time_valid() {
-    let result = DateTimeParser::parse(Rule::date_time, "19.11.2024  12:56:00");
-    assert!(
-        result.is_ok(),
-        "Something went wrong_1 while parsing date_time using Rule::date_time"
-    );
+fn parse_date_time_valid() -> anyhow::Result<()> {
+    let inputs = vec![
+        "19.11.2024  12:56:00",
+        "19/11/2024  12:56:00", 
+        "19-11-2024  12:56:00", 
+        "19/11/2024  12:56:00 +02:00", 
+        "19/11/2024  12:56:00 -02:00"
+        ];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::date_time, input)?;
+        assert_eq!(input, pairs.as_str());
+    }
+
+    Ok(())
 }
 
 #[test]
-fn parse_date_time_invalid() {
-    let result = DateTimeParser::parse(Rule::date_time, "19.11.2024_12:56:00");
-    assert!(result.is_err(), "Something went wrong while parsing date_time using Rule::date_time, was supposed to return DateTimeError")
+fn parse_date_time_invalid() -> anyhow::Result<()> {
+    let inputs = vec![
+        "19_11/2024  12:56:00", 
+        " 19-11-2024  12:56:00", 
+        "19/11/2024_12:56:00 +02:00", 
+        "19/11/2024  12:56:00 02:00"
+        ];
+    for input in inputs {
+        let pairs = DateTimeParser::parse(Rule::date_time, input);
+        assert!(pairs.is_err());
+    }
+
+    Ok(())
+}
+
+#[test]
+fn extract_data_from_parsing_datetime_valid() -> anyhow::Result<()> {
+    let inputs = vec![
+        ("19.11.2024  12:56:00", DateTime{day: "19".to_string(), month: "11".to_string(), year:"2024".to_string(), hours: "12".to_string(), minutes: "56".to_string(), seconds: "00".to_string(), time_zone_offset: None::<String>}), 
+        ("19/11/2024  12:56:00", DateTime{day: "19".to_string(), month: "11".to_string(), year:"2024".to_string(), hours: "12".to_string(), minutes: "56".to_string(), seconds: "00".to_string(), time_zone_offset: None::<String>}), 
+        ("19-11-2024  12:56:00", DateTime{day: "19".to_string(), month: "11".to_string(), year:"2024".to_string(), hours: "12".to_string(), minutes: "56".to_string(), seconds: "00".to_string(), time_zone_offset: None::<String>}),
+        ("19/11/2024  12:56:00 +02:00",  DateTime{day: "19".to_string(), month: "11".to_string(), year:"2024".to_string(), hours: "12".to_string(), minutes: "56".to_string(), seconds: "00".to_string(), time_zone_offset: Some::<String>("+02:00".to_string())}),
+        ("19/11/2024  12:56:00 -02:00",  DateTime{day: "19".to_string(), month: "11".to_string(), year:"2024".to_string(), hours: "12".to_string(), minutes: "56".to_string(), seconds: "00".to_string(), time_zone_offset: Some::<String>("-02:00".to_string())}),
+        ];
+    for (input, expected_result) in inputs {
+        let result = DateTime::from_data_time(input)?;
+        assert_eq!(expected_result, result);
+    }
+
+    Ok(())
 }

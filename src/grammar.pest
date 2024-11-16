@@ -13,6 +13,7 @@
 // <digit>    ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 // <spaces>   ::= " " <spaces> | ""                 // Example: "   "
 
+// task: minimum 4 pest grammar rules
 spaces = { " "+ }
 digit = { '0'..'9' }
 second = { digit ~ digit }
@@ -21,9 +22,10 @@ hour = { digit ~ digit }
 time = { hour ~ ":" ~ minute ~ ":" ~ second}
 day = { digit ~ digit }
 month = { digit ~ digit }
-year = { digit ~ digit ~ digit ~ digit }
-date = { day ~ "." ~ month ~ "." ~ year }
-date_time = { SOI ~ date ~ spaces ~ time ~ EOI }
+year = { digit ~ digit ~ digit ~ digit } // all above are rule 4
+date = { day ~ ("." | "/" | "-") ~ month ~ ("." | "/" | "-") ~ year } // rule 3
+timezone = { ("+" | "-") ~ digit ~ digit ~ ":" ~ digit ~ digit }    // rule 2
+date_time = { SOI ~ date ~ spaces ~ time ~ (spaces ~ timezone)? ~ EOI } // rule 1
 
 
 

@@ -13,7 +13,7 @@ The library utilizes a custom grammar defined in the `grammar.pest` file to faci
 
 ## Features
 
-- **Custom Date and Time Parsing**: Easily parse date-time strings such as `06.11.2024 19:34:00`.
+- **Custom Date and Time Parsing**: Easily parse date-time strings such as `06.11.2024 19:34:00` or `06.11.2024 19:34:00 +02:00`.
 - **Error Reporting**: Get detailed error information when parsing fails, indicating which part of the string couldn't be parsed.
 - **CLI Support**: A simple command-line interface (CLI) that supports parsing date-time strings and displaying help and credits information.
 
@@ -31,9 +31,13 @@ The parser for this project is based on a custom grammar defined using `pest`, w
 
    - `hours`, `minutes`, and `seconds` are all 2-digit numbers (`HH`, `MM`, `SS`).
 
-3. **Whitespace Handling**: The parser skips any unnecessary whitespace between the date and time components.
+3. **Time Zone Format**: The optional time zone part of the string is expected to be in the format `+(-)HH:MM`.
 
-4. **Error Handling**: If the date-time string deviates from the expected format, the parser raises an error specifying which part of the string caused the issue.
+   - `hours`, `minutes` are all 2-digit numbers (`HH`, `MM`).
+
+4. **Whitespace Handling**: The parser skips any unnecessary whitespace between the date and time components.
+
+5. **Error Handling**: If the date-time string deviates from the expected format, the parser raises an error specifying which part of the string caused the issue.
 
 ## Parsing Process
 
@@ -81,6 +85,21 @@ DateTime {
     hours: "19",
     minutes: "34",
     seconds: "00",
+    time_zone_offset: None::<String>
+}
+```
+
+Given the input string `"06.11.2024 19:34:00 -03:00"`, the parser will output the following:
+
+```plaintext
+DateTime {
+    day: "06",
+    month: "11",
+    year: "2024",
+    hours: "19",
+    minutes: "34",
+    seconds: "00",
+    time_zone_offset: "-03:00"
 }
 ```
 
@@ -158,6 +177,7 @@ The project consists of the following main files:
 | - hours: String                                    |
 | - minutes: String                                  |
 | - seconds: String                                  |
+| - time_zone_offset: Option<String>,                |
 |----------------------------------------------------|
 | + from_data_time(date_time: &str) -> Result<Self,  |
 |     DateTimeError>                                 |
@@ -185,5 +205,3 @@ The project consists of the following main files:
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-

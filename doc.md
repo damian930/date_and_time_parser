@@ -55,7 +55,7 @@ date = { day ~ ("." | "/" | "-") ~ month ~ ("." | "/" | "-") ~ year }
 ## **timezone**
 
 ```rust
-timezone = { ("+" | "-") ~ digit ~ digit ~ ":" ~ digit ~ digit }
+timezone = { ("+" | "-") ~ hour ~ ":" ~ minute }
 ```
 
 - **Description**: This rule matches a timezone offset string in the format +HH:MM or -HH:MM (e.g., "+02:00" or "-05:30").

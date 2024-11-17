@@ -161,7 +161,7 @@ The project consists of the following main files:
 
 ### Project Class Diagram
 
-```rust
+```
 +----------------------------------------------------+
 |                    DateTimeParser                  |
 |----------------------------------------------------|

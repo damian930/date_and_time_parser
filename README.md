@@ -103,6 +103,7 @@ DateTime {
     seconds: "00",
     time_zone_offset: Some("+02:00")
 }
+```
 
 ### Parsing Example Code
 

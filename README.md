@@ -77,7 +77,7 @@ The CLI provides the following commands:
 
 Given the input string `"06.11.2024 19:34:00"`, the parser will output the following:
 
-```plaintext
+```rust
 DateTime {
     day: "06",
     month: "11",
@@ -93,7 +93,7 @@ DateTime {
 
 Given the input string `"06.11.2024 19:34:00 +02:00"`, the parser will output the following:
 
-```plaintext
+```rust
 DateTime {
     day: "06",
     month: "11",
@@ -125,7 +125,7 @@ fn main() {
 
 If an invalid date-time string is provided, for example, `"06/11/2024 19:34:00"`, the parser will return an error such as:
 
-```plaintext
+```rust
 ParseError(
         " --> 1:1\n  |\n1 | 06/11/2024 19:34:00\n  | ^---\n  |\n  = expected date",
     )
